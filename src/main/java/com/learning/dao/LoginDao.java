@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.learning.model.LoginCredentials;
 import jakarta.transaction.Transactional;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.springframework.stereotype.Repository;
@@ -43,6 +46,23 @@ public class LoginDao {
             ex.printStackTrace();
         }
         return userExists;
+    }
+
+    public List<LoginCredentials> getAllUsers() {
+        List<LoginCredentials> loginList = new ArrayList<>();
+        String selectUserQuery = "select login_id, password_plain from user order by login_id;";
+        try {
+            PreparedStatement pst = getDbConnectionFromPool().prepareStatement(selectUserQuery);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                loginList.add(new LoginCredentials(rs.getString("login_id"), rs.getString("password_plain")));
+            }
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return loginList;
     }
 
     public boolean saveNewUser(String userName, String password) throws SQLException {

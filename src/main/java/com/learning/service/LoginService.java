@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class LoginService {
@@ -33,6 +34,10 @@ public class LoginService {
 
     public boolean authenticate(LoginCredentials loginUser){
         return userDao.findByUserNameAndPassword(loginUser.getUserName(), loginUser.getPassword());
+    }
+
+    public List<LoginCredentials> getAllUsers(){
+        return userDao.getAllUsers();
     }
 
 }

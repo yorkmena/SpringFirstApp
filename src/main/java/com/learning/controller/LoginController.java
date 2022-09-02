@@ -23,7 +23,7 @@ public class LoginController {
 
     @RequestMapping("/processRegistration")
     public String processRegistration(@ModelAttribute("user") LoginCredentials theUser) {
-        System.out.println("Login:|" + theUser.getUserName() + "|" + theUser.getPassword());
+        System.out.println("Register:|" + theUser.getUserName() + "|" + theUser.getPassword());
 
         if (loginService.registerUser(theUser))
             return "loginPage";
